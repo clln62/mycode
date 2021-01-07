@@ -82,6 +82,9 @@ def reset_calculator():
     global total
     total = 0.0
 
+# Current while loop not needed but being set up to allow user to continue to build on total,
+# reset total, etc. This will require refactoring in other places as well, but code still work
+# as expected in the current form.
 while True:
 
     num_validation(False)

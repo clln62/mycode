@@ -21,7 +21,12 @@ def showStatus():
     print('Inventory : ' + str(inventory))
     # print an item if there is one
     if "item" in rooms[currentRoom]:
-        print('You see a ' + rooms[currentRoom]['item'])
+        print('\nYou see a ' + rooms[currentRoom]['item'])
+    # print all directions and rooms
+    print("\nCurrent paths:")
+    for path in rooms[currentRoom]:
+        if path != "item":
+            print(f"{path}: {rooms[currentRoom][path]}")
     print("---------------------------")
 
 
@@ -34,70 +39,87 @@ rooms = {
 
     'Main Hall': {
         'north': 'Entrance Hall',
-        'east': 'Lessons Hallway',
-        'west': 'Moving Staircases',
+        'west': 'Lessons Hallway',
+        'east': 'Moving Staircases',
         'upstairs': 'Main Hall Balcony',
         'item': 'wand'
     },
     'Lessons Hallway': {
         'north': 'Charms Hallway',
         'south': 'Divination Courtyard',
-        'west': 'Main Hall',
-        'southwest': 'Potions Class'
+        'east': 'Main Hall',
+        'southeast': 'Potions Class'
     },
     # For now, the directions of the rooms don't change, but it would be cool to find a way to make it so the stairs
     # move like in the books to change which rooms they go to.
     'Moving Staircases': {
-        'east': 'Main Hall',
-        'west': 'House Hallway',
+        'west': 'Main Hall',
+        'east': 'House Hallway',
         'south': 'Headmaster\'s Office'
     },
     'Entrance Hall': {
-        # Continue building
-        'south': 'Main Hall'
+        'north': 'Great Hall',
+        'northeast': 'Bathroom Hallway',
+        'south': 'Main Hall',
     },
-    'Main Hall Balcany': {
-        # Continue building
-        'downstairs': 'Main Hall'
-
+    'Main Hall Balcony': {
+        'downstairs': 'Main Hall',
+        'west': 'Library',
+        'east': 'Outer Corridor'
     },
     'Charms Hallway': {
-        # Continue building
-        'south': 'Lessons Hallway'
+        'northeast': 'Charms Class',
+        'south': 'Lessons Hallway',
+        'east': 'Charms Class 2'
+    },
+    'Charms Class': {
+        'west': 'Charms Hallway',
+        'hidden-door': 'Dragon Basement'
+    },
+    'Dragon Basement': {
+        # Determine what to do in this room, user current gets trapped
+    },
+    'Charms Class 2': {
+        'west': 'Charms Hallway',
+        'hidden-door': 'Dark Basement'
+    },
+    'Dark Basement': {
+        # Determine what to do in this room, user current gets trapped
     },
     'Divination Courtyard': {
-        # Continue building
-        'north': 'Lessons Hallway'
+        'north': 'Lessons Hallway',
+        'south': 'Divination Class',
+    },
+    'Divination Class': {
+        'north': 'Divination Courtyard'
     },
     'Potions Class': {
-        # Continue building
-        'northeast': 'Lessons Hallway'
+        'east': 'Lessons Hallway',
+        'southwest': 'Potions Dungeon'
+    },
+    'Potions Dungeon': {
+        'northeast': 'Potions Class'
     },
     'House Hallway': {
         'downstairs': 'Slytherin CR',
         'north': 'Ravenclaw Tower',
         'east': 'Moving Staircases',
-        'south': 'Hufflepuff CR',
+        'south': 'Hufflepuff Hallway',
         'west': 'Gryffindor CR',
     },
     'Headmaster\'s Office': {
         # Continue building
     },
     'Slytherin CR': {
-        # Continue building
-        'upstairs': 'House Hallway'
+        'upstairs': 'House Hallway',
+        'east': 'Slytherin Dorm'
+    },
+    'Slytherin Dorm': {
+        'west': 'Slytherin CR'
     },
     'Ravenclaw Tower': {
         'south': 'House Hallway',
         'upstairs': 'Ravenclaw CR'
-    },
-    'Hufflepuff CR': {
-        # Continue building
-        'north': 'House Hallway'
-    },
-    'Gryffindor CR': {
-        # Continue building
-        'east': 'House Hallway'
     },
     'Ravenclaw CR': {
         'north': 'Ravenclaw Dorm',
@@ -105,6 +127,99 @@ rooms = {
     },
     'Ravenclaw Dorm': {
         'south': 'Ravenclaw CR'
+    },
+    'Hufflepuff Hallway': {
+        'north': 'House Hallway',
+        'south': 'Hufflepuff CR'
+    },
+    'Hufflepuff CR': {
+        'north': 'Hufflepuff Hallway',
+        'south': 'Hufflepuff Dorm'
+    },
+    'Gryffindor CR': {
+        'east': 'House Hallway',
+        'west': 'Gryffindor Dorm'
+    },
+    'Great Hall': {
+        'south': 'Entrance Hall'
+    },
+    'Bathroom Hallway': {
+        'south': 'Entrance Hall',
+        'southeast': 'Boys\' Bathroom'
+    },
+    'Boys\' Bathroom': {
+        'north': 'Bathroom Hallway'
+    },
+    'Library': {
+        'west': 'Restricted Section',
+        'east': 'Main Hall Balcony'
+    },
+    'Outer Corridor': {
+        'south': 'Fountain Courtyard',
+        'east': 'Clock Tower Courtyard',
+        'west': 'Main Hall Balcony'
+    },
+    'Restricted Section': {
+        # Key will be needed from Headmaster's Office in order to enter
+        # Add a cool item that will be very useful later
+        'east': 'Library'
+    },
+    'Fountain Courtyard': {
+        'north': 'Outer Corridor',
+        'south': 'Wooden Bridge'
+    },
+    'Clock Tower Courtyard': {
+        # Continue building
+        'northeast': 'Grassy Courtyard',
+        'northwest': 'Clock Tower',
+        'east': 'Herbology Grounds',
+        'west': 'Outer Corridor',
+    },
+    'Wooden Bridge': {
+        'north': 'Fountain Courtyard',
+        'South': 'Hogwarts Grounds'
+    },
+    'Hogwarts Grounds': {
+        'south': 'Black Lake',
+        'southwest': 'Hagrid\'s Garden',
+        'west': 'Quidditch Grounds'
+    },
+    'Black Lake': {
+        'north': 'Hogwarts Grounds'
+    },
+    'Hagrid\'s Garden': {
+        'northeast': 'Hogwarts Garden'
+    },
+    'Quidditch Grounds': {
+        'east': 'Hogwarts Grounds',
+        'item': 'broom'
+    },
+    'Grassy Courtyard': {
+        'north': 'Owlrey',
+        'south': 'Clock Tower Courtyard'
+    },
+    'Clock Tower': {
+        'south': 'Clock Tower Courtyard'
+    },
+    'Herbology Grounds': {
+        'north': 'Greenhouse',
+        'east': 'Training Grounds',
+        'west': 'Clock Tower Courtyard'
+    },
+    'Greenhouse': {
+        'north': 'Garden Path',
+        'south': 'Herbology Grounds'
+    },
+    'Training Grounds': {
+        'west': 'Herbology Grounds'
+    },
+    'Garden Path': {
+        'north': 'Greenhouse 2',
+        'east': 'Garden Shed',
+        'south': 'Greenhouse'
+    },
+    'Greenhouse 2': {
+        'south': 'Garden Path'
     }
 
 }
@@ -134,7 +249,7 @@ while True:
     # if they type 'go' first
     if move[0] == 'go':
         # Check if player is attempting to enter dorm room - if so, prompt with riddle
-        if currentRoom.split(" ")[1] == "CR" and rooms[currentRoom][move[1]].split(" ")[1] == "Dorm":
+        if len(currentRoom.split(" ")) > 1 and currentRoom.split(" ")[1] == "CR" and rooms[currentRoom][move[1]].split(" ")[1] == "Dorm":
             # For now, for simplicity, every room will have the same riddle, but in future can have random
             # riddles or specific ones to each house
             print("""
@@ -153,16 +268,20 @@ Enter "A" for Albus Dumbledore -
 "C" for Hermione Granger - 
 "D" for Minerva McGonagall
             ''')
+
             answer = input(">").strip().upper()
 
+            # If answered correctly, they continue to the respective Dorm
             if answer == "D":
                 currentRoom = rooms[currentRoom][move[1]]
+            # Otherwise they are taken to Headmaster's Office
             else:
                 print("""
 You have been caught by Professor Minerva McGonagall for trying to sneak into another houses dorm!
 She takes you directly to the Headmaster's Office!
                 """)
                 currentRoom = "Headmaster\'s Office"
+
         # check that they are allowed wherever they want to go
         elif move[1] in rooms[currentRoom]:
             # set the current room to the new room
